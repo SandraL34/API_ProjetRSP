@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+</head>
+<body>
+
+<h1>Connexion</h1>
+
+{% if error %}
+    <p style="color: red;">
+        {{ error.messageKey }}
+    </p>
+{% endif %}
+
+<form method="post" action="{{ path('app_login') }}">
+    <div>
+        <label for="username">Nom d'utilisateur :</label>
+        <input
+            type="text"
+            id="username"
+            name="_username"
+            value="{{ last_username }}"
+        >
+    </div>
+
+    <div>
+        <label for="password">Mot de passe :</label>
+        <input
+            type="password"
+            id="password"
+            name="_password"
+        >
+    </div>
+
+    <button type="submit">Se connecter</button>
+</form>
+
+</body>
+</html>
