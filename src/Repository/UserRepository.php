@@ -18,6 +18,7 @@ class UserRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
+        // Relie ce repository au gestionnaire Doctrine de l'entité User.
         parent::__construct($registry, User::class);
     }
 

@@ -18,6 +18,7 @@ class MeasureRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
+        // Relie ce repository au gestionnaire Doctrine de l'entité Measure.
         parent::__construct($registry, Measure::class);
     }
 

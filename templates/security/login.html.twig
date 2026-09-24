@@ -6,14 +6,17 @@
 </head>
 <body>
 
+{# Affiche le titre de la page d'authentification. #}
 <h1>Connexion</h1>
 
+{# Présente le message renvoyé par Symfony après un échec de connexion. #}
 {% if error %}
     <p style="color: red;">
         {{ error.messageKey }}
     </p>
 {% endif %}
 
+{# Envoie les identifiants vers la route de connexion du firewall Symfony. #}
 <form method="post" action="{{ path('app_login') }}">
     <div>
         <label for="username">Nom d'utilisateur :</label>
