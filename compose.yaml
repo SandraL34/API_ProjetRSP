@@ -1,20 +1,26 @@
-
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  # 1. Le moteur PHP (L'API Symfony)
+  api:
+    build: .
+    container_name: symfony_api
+    restart: always
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - .:/var/www/symfony
+    env_file:
+      - .env
+    # Permet au conteneur Docker de voir le "localhost" de votre PC Windows (XAMPP)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  # 2. Le serveur Web Nginx
+  webserver:
+    image: nginx:alpine
+    container_name: symfony_webserver
+    restart: always
+    ports:
+      - "8000:80" # Votre API Symfony sera disponible sur http://localhost:8000
+    volumes:
+      - .:/var/www/symfony
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - api
